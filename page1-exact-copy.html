@@ -65,15 +65,18 @@
             padding: 24px 0;
         }
 
-        /* Страница - точные размеры согласно OCR */
+        /* Страница - ПОЛНЫЕ размеры согласно OCR (без масштабирования) */
         .page {
             position: relative;
-            width: 794px;  /* 1589px / 2 для масштаба 50% */
-            height: 1123px; /* 2247px / 2 для масштаба 50% */
+            width: 1589px;  /* Полный размер из OCR */
+            height: 2247px; /* Полный размер из OCR */
             overflow: hidden;
             background: #3a3a3a;
             print-color-adjust: exact;
             -webkit-print-color-adjust: exact;
+            transform: scale(0.5);
+            transform-origin: top left;
+            margin-bottom: -1123px;
         }
 
         /* Фон страницы */
@@ -98,19 +101,19 @@
             opacity: 0.35;
         }
 
-        /* Полупрозрачные полосы */
+        /* Полупрозрачные полосы - ПОЛНЫЕ размеры */
         .band {
             position: absolute;
             left: 0;
             right: 0;
-            height: 60px; /* 120px / 2 */
+            height: 120px;
             background: rgba(255,255,255,0.12);
         }
         .band.band-top {
-            top: 255px; /* 510px / 2 */
+            top: 510px;
         }
         .band.band-bottom {
-            top: 325px; /* 650px / 2 */
+            top: 650px;
         }
 
         /* Декоративные элементы */
@@ -120,42 +123,42 @@
             pointer-events: none;
         }
 
-        /* Логотип Nestle - позиция примерно из области 150 86 376 188 */
+        /* Логотип Nestle - ТОЧНАЯ позиция из OCR bbox 146 253 376 340 */
         .decor-logo {
-            top: 43px;  /* 86px / 2 */
-            left: 75px; /* 150px / 2 */
-            width: 113px; /* (376-150) / 2 */
+            top: 253px;
+            left: 146px;
+            width: 230px; /* (376-146) */
             z-index: 10;
         }
 
         /* Декоративные точки - справа вверху */
         .decor-dots {
-            top: 35px;
-            right: 45px;
-            width: 49px;
+            top: 170px;
+            right: 101px; /* 1589 - 1488 */
+            width: 174px; /* примерная ширина */
             opacity: 0.95;
             z-index: 10;
         }
 
         /* Кольцо */
         .decor-ring {
-            right: 65px;
-            top: 240px;
-            width: 120px;
-            height: 120px;
+            right: 130px;
+            top: 480px;
+            width: 240px;
+            height: 240px;
             border-radius: 50%;
             box-sizing: border-box;
-            border: 9px solid var(--color-purple-aux);
+            border: 18px solid var(--color-purple-aux);
             opacity: 0.55;
             z-index: 5;
         }
 
         /* Малый диск */
         .decor-disc-small {
-            right: 75px;
-            top: 320px;
-            width: 95px;
-            height: 95px;
+            right: 150px;
+            top: 640px;
+            width: 190px;
+            height: 190px;
             background: var(--color-graphic-primary);
             opacity: 0.8;
             border-radius: 50%;
@@ -164,10 +167,10 @@
 
         /* Большой диск */
         .decor-disc-big {
-            right: 55px;
-            bottom: 55px;
-            width: 125px;
-            height: 125px;
+            right: 110px;
+            bottom: 110px;
+            width: 250px;
+            height: 250px;
             background: var(--color-graphic-primary);
             opacity: 0.92;
             border-radius: 50%;
@@ -176,30 +179,30 @@
 
         /* Дополнительные декоративные круги */
         .decor-circle-left {
-            left: 65px;
-            top: 240px;
-            width: 95px;
-            height: 95px;
+            left: 130px;
+            top: 480px;
+            width: 190px;
+            height: 190px;
             background: rgba(136,92,160,0.25);
             border-radius: 50%;
             z-index: 4;
         }
 
         .decor-circle-middle {
-            left: 75px;
-            top: 320px;
-            width: 120px;
-            height: 120px;
+            left: 150px;
+            top: 640px;
+            width: 240px;
+            height: 240px;
             background: rgba(136,92,160,0.35);
             border-radius: 50%;
             z-index: 4;
         }
 
         .decor-circle-bottom {
-            right: 15px;
-            bottom: 30px;
-            width: 130px;
-            height: 130px;
+            right: 30px;
+            bottom: 60px;
+            width: 260px;
+            height: 260px;
             background: rgba(136,92,160,0.55);
             border-radius: 50%;
             z-index: 4;
@@ -207,31 +210,31 @@
 
         /* ТОЧНОЕ позиционирование текста согласно OCR данным (масштаб 50%) */
 
-        /* УВАЖАЕМЫЙ - bbox 151 512 870 598 */
+        /* УВАЖАЕМЫЙ - bbox 151 512 870 598 - x_size 113.25 */
         .text-respect {
             position: absolute;
-            left: 75.5px;   /* 151px / 2 */
-            top: 256px;     /* 512px / 2 */
-            width: 359.5px; /* (870-151) / 2 */
-            height: 43px;   /* (598-512) / 2 */
-            font-size: 43.5pt; /* 87pt / 2 */
+            left: 151px;
+            top: 512px;
+            width: 719px; /* (870-151) */
+            height: 86px; /* (598-512) */
+            font-size: 113px; /* OCR x_size 113.25 */
             font-weight: 300;
             line-height: 1;
             color: #ffffff;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             white-space: nowrap;
             z-index: 20;
         }
 
-        /* ИВАН! - bbox 1019 505 1386 599 */
+        /* ИВАН! - bbox 1019 501 1390 599 - такой же x_size */
         .text-name {
             position: absolute;
-            left: 509.5px;  /* 1019px / 2 */
-            top: 252.5px;   /* 505px / 2 */
-            width: 183.5px; /* (1386-1019) / 2 */
-            height: 47px;   /* (599-505) / 2 */
+            left: 1019px;
+            top: 501px;
+            width: 371px; /* (1390-1019) */
+            height: 98px; /* (599-501) */
             font-family: 'Nestle Brush', cursive;
-            font-size: 41.5pt; /* 83pt / 2 */
+            font-size: 110px; /* Чуть меньше для курсива */
             font-weight: 400;
             line-height: 1;
             color: #ffffff;
@@ -240,134 +243,134 @@
             z-index: 20;
         }
 
-        /* Первый абзац приветствия - bbox 153 726 1219 762 */
+        /* Первый абзац приветствия - bbox 153 726 1219 762 - x_size 32 */
         .text-welcome-1 {
             position: absolute;
-            left: 76.5px;   /* 153px / 2 */
-            top: 363px;     /* 726px / 2 */
-            width: 533px;   /* (1219-153) / 2 */
-            height: 18px;   /* (762-726) / 2 */
-            font-size: 9pt; /* 18pt / 2 */
+            left: 153px;
+            top: 726px;
+            width: 1066px; /* (1219-153) */
+            height: 36px;  /* (762-726) */
+            font-size: 32px; /* OCR x_size 32 */
             font-weight: 400;
             line-height: 1.4;
             color: #ffffff;
             z-index: 20;
         }
 
-        /* Второй абзац - bbox 153 778 939 812 */
+        /* Второй абзац - bbox 153 778 939 812 - x_size 33 */
         .text-welcome-2 {
             position: absolute;
-            left: 76.5px;   /* 153px / 2 */
-            top: 389px;     /* 778px / 2 */
-            width: 393px;   /* (939-153) / 2 */
-            height: 17px;   /* (812-778) / 2 */
-            font-size: 9pt; /* 18pt / 2 */
+            left: 153px;
+            top: 778px;
+            width: 786px; /* (939-153) */
+            height: 34px; /* (812-778) */
+            font-size: 33px; /* OCR x_size 33 */
             font-weight: 400;
             line-height: 1.4;
             color: #ffffff;
             z-index: 20;
         }
 
-        /* Третий абзац - bbox 153 827 636 858 */
+        /* Третий абзац - bbox 153 827 636 858 - x_size 34.86 */
         .text-position {
             position: absolute;
-            left: 76.5px;   /* 153px / 2 */
-            top: 413.5px;   /* 827px / 2 */
-            width: 241.5px; /* (636-153) / 2 */
-            height: 15.5px; /* (858-827) / 2 */
-            font-size: 9pt; /* 18pt / 2 */
+            left: 153px;
+            top: 827px;
+            width: 483px; /* (636-153) */
+            height: 31px; /* (858-827) */
+            font-size: 35px; /* OCR x_size 34.86 */
             font-weight: 400;
             line-height: 1.4;
             color: #ffffff;
             z-index: 20;
         }
 
-        /* Четвертый абзац - bbox 153 876 1070 911 */
+        /* Четвертый абзац - bbox 153 876 1070 911 - x_size 34.92 */
         .text-department {
             position: absolute;
-            left: 76.5px;   /* 153px / 2 */
-            top: 438px;     /* 876px / 2 */
-            width: 458.5px; /* (1070-153) / 2 */
-            height: 17.5px; /* (911-876) / 2 */
-            font-size: 9pt; /* 18pt / 2 */
+            left: 153px;
+            top: 876px;
+            width: 917px; /* (1070-153) */
+            height: 35px; /* (911-876) */
+            font-size: 35px; /* OCR x_size 34.92 */
             font-weight: 400;
             line-height: 1.4;
             color: #ffffff;
             z-index: 20;
         }
 
-        /* Пятый абзац (Департамент Продаж) - bbox 150 928 551 961 */
+        /* Пятый абзац (Департамент Продаж) - bbox 150 928 551 961 - x_size 33 */
         .text-department-2 {
             position: absolute;
-            left: 75px;     /* 150px / 2 */
-            top: 464px;     /* 928px / 2 */
-            width: 200.5px; /* (551-150) / 2 */
-            height: 16.5px; /* (961-928) / 2 */
-            font-size: 9pt; /* 18pt / 2 */
+            left: 150px;
+            top: 928px;
+            width: 401px; /* (551-150) */
+            height: 33px; /* (961-928) */
+            font-size: 33px; /* OCR x_size 33 */
             font-weight: 400;
             line-height: 1.4;
             color: #ffffff;
             z-index: 20;
         }
 
-        /* Шестой абзац - bbox 153 978 878 1012 */
+        /* Шестой абзац - bbox 153 978 878 1012 - x_size 33 */
         .text-manager {
             position: absolute;
-            left: 76.5px;   /* 153px / 2 */
-            top: 489px;     /* 978px / 2 */
-            width: 362.5px; /* (878-153) / 2 */
-            height: 17px;   /* (1012-978) / 2 */
-            font-size: 9pt; /* 18pt / 2 */
+            left: 153px;
+            top: 978px;
+            width: 725px; /* (878-153) */
+            height: 34px; /* (1012-978) */
+            font-size: 33px; /* OCR x_size 33 */
             font-weight: 400;
             line-height: 1.4;
             color: #ffffff;
             z-index: 20;
         }
 
-        /* Седьмой абзац - bbox 153 1026 978 1061 */
+        /* Седьмой абзац - bbox 153 1026 978 1061 - x_size 34 */
         .text-start-date {
             position: absolute;
-            left: 76.5px;   /* 153px / 2 */
-            top: 513px;     /* 1026px / 2 */
-            width: 412.5px; /* (978-153) / 2 */
-            height: 17.5px; /* (1061-1026) / 2 */
-            font-size: 9pt; /* 18pt / 2 */
+            left: 153px;
+            top: 1026px;
+            width: 825px; /* (978-153) */
+            height: 35px; /* (1061-1026) */
+            font-size: 34px; /* OCR x_size 34 */
             font-weight: 400;
             line-height: 1.4;
             color: #ffffff;
             z-index: 20;
         }
 
-        /* Испытательный срок - bbox 153 1078 723 1105 */
+        /* Испытательный срок - bbox 153 1077 705 1111 - x_size 35 */
         .text-probation {
             position: absolute;
-            left: 76.5px;   /* 153px / 2 */
-            top: 539px;     /* 1078px / 2 */
-            width: 285px;   /* (723-153) / 2 */
-            height: 13.5px; /* (1105-1078) / 2 */
-            font-size: 9pt; /* 18pt / 2 */
+            left: 153px;
+            top: 1077px;
+            width: 552px; /* (705-153) */
+            height: 34px; /* (1111-1077) */
+            font-size: 35px; /* OCR x_size 35 */
             font-weight: 400;
             line-height: 1.4;
             color: #ffffff;
             z-index: 20;
         }
 
-        /* Плашка с деталями договора */
+        /* Плашка с деталями договора - область bbox 0 1042 1528 1922 */
         .contract-plate {
             position: absolute;
-            left: 76.5px;
-            right: 130px;
-            top: 575px;
+            left: 153px;
+            right: 260px;
+            top: 1150px;
             background: var(--color-purple-aux);
-            border-radius: 7px 7px 12px 7px;
-            padding: 9px 11px;
+            border-radius: 14px 14px 24px 14px;
+            padding: 18px 22px;
             color: #ffffff;
             z-index: 15;
         }
 
         .contract-plate p {
-            margin: 4px 0;
-            font-size: 8pt;
+            margin: 8px 0;
+            font-size: 32px; /* Пропорционально основному тексту */
             font-weight: 400;
             line-height: 1.4;
         }
@@ -385,8 +388,8 @@
 
         .pin {
             position: relative;
-            width: 7px;
-            height: 7px;
+            width: 14px;
+            height: 14px;
         }
 
         .pin::before {
@@ -401,10 +404,10 @@
         .pin::after {
             content: "";
             position: absolute;
-            left: 1.5px;
-            top: 1.5px;
-            width: 4px;
-            height: 4px;
+            left: 3px;
+            top: 3px;
+            width: 8px;
+            height: 8px;
             background: var(--color-purple-aux);
             border-radius: 50%;
         }
@@ -412,23 +415,23 @@
         /* CTA кнопка */
         .cta-button {
             position: absolute;
-            left: 76.5px;
-            bottom: 47.5px;
-            width: 150px;
-            height: 28px;
-            border-radius: 14px;
-            border: 1px solid #ffffff;
+            left: 153px;
+            bottom: 95px;
+            width: 300px;
+            height: 56px;
+            border-radius: 28px;
+            border: 2px solid #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #ffffff;
-            font-size: 8px;
-            gap: 5px;
+            font-size: 32px;
+            gap: 10px;
             z-index: 25;
         }
 
         .cta-button img {
-            width: 18px;
+            width: 36px;
             height: auto;
             filter: invert(1) brightness(100);
         }
