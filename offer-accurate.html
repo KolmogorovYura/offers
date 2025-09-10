@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Оффер Проф — Точный макет</title>
+    <style>
+      :root {
+        --color-bg-grad-start: #1E6EAF;
+        --color-bg-grad-end: #76C6FE;
+        --color-graphic-primary: #885CA0;
+        --color-purple-aux: #A887B9;
+        --color-blue-aux: #8F9AC9;
+        --color-bullets: #CDA7E0;
+        --text-color: #ffffff;
+        /* Единые поля контентной колонки листа 1 */
+        --page1-content-left: 390px;
+        --page1-content-right: 270px;
+      }
+
+      @font-face { font-family: 'Nestle Text'; src: local('Arial'); font-weight: 300; font-style: normal; }
+      @font-face { font-family: 'Nestle Text'; src: local('Arial'); font-weight: 400; font-style: normal; }
+      @font-face { font-family: 'Nestle Text'; src: local('Arial Bold'); font-weight: 700; font-style: normal; }
+      @font-face { font-family: 'Nestle Brush'; src: local('Brush Script MT'); font-weight: 400; font-style: normal; }
+
+      html, body { margin: 0; padding: 0; background: #2a2a2a; color: var(--text-color); font-family: 'Nestle Text', -apple-system, Segoe UI, Roboto, Arial, sans-serif; line-height: 1.35; }
+      @page { size: 794px 1123px; margin: 0; }
+      .document { display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 24px 0; }
+      .page { position: relative; width: 794px; height: 1123px; overflow: hidden; background: #3a3a3a; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+
+      .page-background { position: absolute; inset: 0; z-index: 0; }
+      .page-gradient { position: absolute; inset: 0; background: linear-gradient(180deg, var(--color-bg-grad-start) 0%, var(--color-bg-grad-end) 100%); }
+      .page-bg-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; }
+      /* Полупрозрачные горизонтальные полосы как в макете */
+      .band { position: absolute; left: 0; right: 0; height: 100px; background: rgba(255,255,255,0.08); }
+      .band.band-top { top: 520px; }
+      .band.band-bottom { top: 680px; }
+
+      .decor { position: absolute; user-select: none; pointer-events: none; }
+      .decor-logo { top: 80px; left: 100px; width: 130px; opacity: 0.9; }
+      .decor-dots { top: 60px; right: 100px; width: 110px; opacity: 0.8; }
+      .decor-ring { right: 120px; top: 450px; width: 220px; height: 220px; border-radius: 50%; box-sizing: border-box; border: 16px solid var(--color-purple-aux); opacity: 0.6; }
+      .decor-disc-small { right: 140px; top: 600px; width: 180px; height: 180px; background: var(--color-graphic-primary); opacity: 0.75; border-radius: 50%; }
+      .decor-disc-big { right: 100px; bottom: 120px; width: 240px; height: 240px; background: var(--color-graphic-primary); opacity: 0.85; border-radius: 50%; }
+
+      /* Вспомогательные классы */
+      .is-hidden { display: none !important; }
+      .footnote { font-size: 13pt; }
+      .text-body { font-size: 18pt; }
+
+      .headline { position: absolute; left: 120px; right: 120px; top: 450px; text-align: center; }
+      .headline h1 { margin: 0 0 20px 0; font-weight: 300; font-size: 75pt; line-height: 0.9; color: #ffffff; letter-spacing: 3px; white-space: nowrap; text-align: center; }
+      .headline h1 .brush { font-family: 'Nestle Brush', cursive; font-weight: 400; display: inline-block; font-size: 72pt; transform: translateY(-10px); margin-left: 20px; letter-spacing: 0; }
+
+      .lead { position: absolute; left: 140px; right: 140px; top: 620px; color: #ffffff; font-size: 14pt; line-height: 1.6; text-align: center; max-width: 800px; margin: 0 auto; }
+      .lead p { margin: 10px 0; }
+      .lead strong { font-weight: 700; }
+
+      .plate { position: absolute; left: 120px; right: 120px; top: 900px; color: #ffffff; background: var(--color-purple-aux); border-radius: 16px 16px 26px 16px; padding: 24px 28px; max-width: 650px; margin: 0 auto; }
+      .plate p { margin: 10px 0; font-size: 14pt; }
+      .plate strong { font-weight: 700; }
+      .plate .address { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+      .pin { position: relative; width: 14px; height: 14px; }
+      .pin::before { content: ""; position: absolute; inset: 0; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: #ffffff; }
+      .pin::after { content: ""; position: absolute; left: 3px; top: 3px; width: 8px; height: 8px; background: var(--color-purple-aux); border-radius: 50%; }
+
+      .cta { position: absolute; left: 50%; bottom: 180px; width: 350px; height: 65px; border-radius: 32px; border: 3px solid #ffffff; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 17px; font-weight: 600; gap: 15px; transform: translateX(-50%); cursor: pointer; transition: all 0.3s ease; }
+      .cta:hover { background: rgba(255,255,255,0.1); transform: translateX(-50%) scale(1.05); }
+      .cta img { width: 36px; height: auto; filter: invert(1) brightness(100); }
+
+      @media print { body { background: none; } .document { gap: 0; padding: 0; } .page { break-after: page; }
+      }
+
+      /* ===== Лист 2 ===== */
+      .page-2 .hero { position: absolute; top: 90px; left: 80px; right: 80px; color: #fff; }
+      .page-2 .hero-title { margin: 0; font-weight: 300; font-size: 52pt; letter-spacing: 1px; }
+      .page-2 .hero-title .brush { font-family: 'Nestle Brush', cursive; font-weight: 400; letter-spacing: 2px; }
+
+      /* Верхняя фиолетовая плашка с зарплатой */
+      .page-2 .salary-plate { position: absolute; left: 60px; right: 60px; top: 170px; background: var(--color-graphic-primary); color: #fff; border-radius: 20px; padding: 22px 28px; }
+      .page-2 .salary-title { margin: 0 0 10px 0; font-size: 20pt; font-weight: 400; }
+      .page-2 .salary-chip { display: inline-block; padding: 6px 16px; border: 2px solid #fff; border-radius: 24px; font-weight: 700; }
+      .page-2 .salary-note { margin: 0; font-size: 12pt; opacity: 0.9; }
+
+      /* Большой блок с перечнем льгот */
+      .page-2 .benefits-box { position: absolute; top: 340px; left: 80px; right: 80px; color: #fff; border: 4px solid #fff; border-radius: 20px; padding: 26px 28px; }
+      .page-2 .benefits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 40px; }
+      .page-2 .benefits-list { margin: 0; padding: 0 0 0 22px; display: grid; gap: 14px; }
+      .page-2 .benefits-list li { font-size: 16pt; }
+      .page-2 .benefits-list li::marker { color: var(--color-bullets); }
+
+      /* Пурпурная полоса под заголовком бонуса */
+      .page-2 .band-purple { position: absolute; left: 0; right: 0; top: 600px; height: 140px; background: rgba(136, 92, 160, 0.45); }
+
+      /* Секция про бонус */
+      .page-2 .bonus { position: absolute; left: 80px; right: 80px; top: 620px; color: #fff; }
+      .page-2 .bonus-title { margin: 0 0 12px 0; font-size: 22pt; font-weight: 300; }
+      .page-2 .bonus-title strong { font-weight: 700; }
+      .page-2 .bonus-text { margin: 0 0 12px 0; font-size: 13pt; line-height: 1.5; }
+      .page-2 .bonus-footnote { margin: 0; font-size: 12pt; opacity: 0.95; }
+
+      /* Вертикальные декоративные точки справа */
+      .page-2 .dots-vert { position: absolute; right: 92px; top: 720px; display: grid; gap: 22px; }
+      .page-2 .dots-vert span { width: 8px; height: 8px; background: #fff; border-radius: 50%; display: block; }
+
+      /* ===== Лист 3 ===== */
+      .page-3 .hero { position: absolute; top: 90px; left: 80px; right: 80px; color: #fff; }
+      .page-3 .hero-line1 { margin: 0; font-weight: 300; font-size: 44pt; letter-spacing: 2px; }
+      .page-3 .hero-line2 { margin: 10px 0 0 0; font-family: 'Nestle Brush', cursive; font-weight: 400; font-size: 56pt; line-height: 1.05; }
+      .page-3 .nestle-logo { position: absolute; top: 70px; right: 80px; width: 120px; }
+
+      .page-3 .benefits-top { position: absolute; top: 300px; left: 80px; right: 80px; color: #fff; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 40px; }
+      .page-3 .benefits-top ul { margin: 0; padding: 0 0 0 22px; display: grid; gap: 14px; }
+      .page-3 .benefits-top li { font-size: 16pt; }
+      .page-3 .benefits-top li::marker { color: var(--color-bullets); }
+
+      .page-3 .comfort-title { position: absolute; left: 80px; right: 80px; top: 610px; color: #fff; }
+      .page-3 .comfort-title .line1 { margin: 0; font-family: 'Nestle Brush', cursive; font-weight: 400; font-size: 50pt; line-height: 1.05; }
+      .page-3 .comfort-title .line2 { margin: 8px 0 0 0; font-weight: 300; font-size: 38pt; letter-spacing: 1px; }
+      .page-3 .comfort-title .line3 { margin: 8px 0 0 0; font-weight: 300; font-size: 38pt; letter-spacing: 1px; }
+
+      .page-3 .benefits-bottom { position: absolute; top: 840px; left: 80px; right: 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 40px; color: #fff; }
+      .page-3 .benefits-bottom ul { margin: 0; padding: 0 0 0 22px; display: grid; gap: 14px; }
+      .page-3 .benefits-bottom li { font-size: 16pt; }
+      .page-3 .benefits-bottom li::marker { color: var(--color-bullets); }
+
+      .page-3 .disc-left { position: absolute; left: 20px; bottom: 40px; width: 360px; height: 360px; background: rgba(136,92,160,0.25); border-radius: 50%; }
+      .page-3 .disc-right { position: absolute; right: 90px; bottom: 180px; width: 260px; height: 260px; background: rgba(136,92,160,0.55); border-radius: 50%; }
+    </style>
+  </head>
+  <body>
+    <div class="document">
+      <!-- Лист 1 -->
+      <section class="page page-1" aria-label="Лист 1">
+        <div class="page-background">
+          <div class="page-gradient"></div>
+          <img class="page-bg-image" src="./Исходники для оффера_проф 3/фон.png" alt="" />
+          <div class="band band-top"></div>
+          <div class="band band-bottom"></div>
+          <img class="decor decor-logo" src="./Исходники для оффера_проф 3/logo.svg" alt="" />
+          <img class="decor decor-dots" src="./Исходники для оффера_проф 3/dots.svg" alt="" />
+          <div class="decor decor-ring"></div>
+          <div class="decor decor-disc-small"></div>
+          <div class="decor decor-disc-big"></div>
+          <img class="decor decor-arrow" src="./Исходники для оффера_проф 3/arrow.svg" alt="" style="top: 750px; left: 200px; width: 80px; transform: rotate(15deg); opacity: 0.7;" />
+        </div>
+
+        <div class="headline">
+          <h1>
+            УВАЖАЕМЫЙ
+            <span class="brush">ИВАН!</span>
+          </h1>
+        </div>
+
+        <div class="lead">
+          <p>Мы будем рады вас видеть в команде <strong>ООО «Нестле Россия»</strong>,</p>
+          <p>Группа компаний <strong>Нестле в России и Евразии</strong>.</p>
+          <p>Ваша позиция: <strong>Специалист</strong>.</p>
+          <p>Ваше подразделение: <strong>Отдел по работе с клиентами, Департамент Продаж</strong>.</p>
+          <p>Ваш руководитель: <strong>Руководитель отдела</strong>.</p>
+          <p>Предлагаемая дата начала работы: <strong>01.01.2026 г.</strong></p>
+          <p>Испытательный срок: <strong>3 месяца</strong>.</p>
+        </div>
+
+        <section class="plate" aria-label="Детали договора">
+          <p>Тип трудового договора:
+            <strong>Постоянный трудовой договор</strong>.
+          </p>
+          <p>График работы: <strong>Полная занятость</strong> часов в неделю.</p>
+          <div class="address">
+            <span class="pin"></span>
+            <span>Ждем вас по адресу: <strong>Москва, ул. Профсоюзная, д. 1</strong>.</span>
+          </div>
+        </section>
+
+        <div class="cta" aria-hidden="true">
+          <img src="./Исходники для оффера_проф 3/arrow.svg" alt="" />
+          ПРИСОЕДИНИТЬСЯ
+        </div>
+      </section>
+
+      <!-- Лист 2 -->
+      <section class="page page-2" aria-label="Лист 2">
+        <div class="page-background">
+          <div class="page-gradient"></div>
+          <img class="page-bg-image" src="./Исходники для оффера_проф 3/фон.png" alt="" />
+          <img class="decor decor-dots" src="./Исходники для оффера_проф 3/dots.svg" alt="" />
+          <div class="decor decor-ring"></div>
+          <div class="decor decor-disc-small"></div>
+          <div class="decor decor-disc-big"></div>
+        </div>
+
+        <div class="hero">
+          <h1 class="hero-title">МЫ <span class="brush">ПРЕДЛАГАЕМ</span></h1>
+        </div>
+
+        <section class="salary-plate" aria-label="Зарплата">
+          <h2 class="salary-title">Ежемесячная базовая заработная плата: <span class="salary-chip">10 000 рублей*</span> в месяц до вычета налогов</h2>
+          <p class="salary-note">*С учетом районного коэффициента в случае его наличия в соответствии с ТК РФ.</p>
+        </section>
+
+        <section class="benefits-box" aria-label="Компенсации и льготы">
+          <div class="benefits-grid">
+            <ul class="benefits-list">
+              <li>Страхование жизни</li>
+              <li>Добровольное медицинское страхование</li>
+              <li>Мобильный телефон и оплата услуг мобильной связи</li>
+            </ul>
+            <ul class="benefits-list">
+              <li>Компенсация питания: 380 рублей</li>
+              <li>Компенсация за использование личного автомобиля/такси — до 30 000 Р в месяц**</li>
+            </ul>
+          </div>
+        </section>
+
+        <div class="band-purple" aria-hidden="true"></div>
+
+        <section class="bonus" aria-label="Годовой бонус">
+          <h3 class="bonus-title">Целевой размер годового бонуса: <strong>15% от базовой заработной платы за отработанный период.</strong></h3>
+          <p class="bonus-text">Ваш бонус будет зависеть от результатов деятельности Компании и ваших индивидуальных результатов. Если вы присоединитесь к Компании: с 1 января по 30 сентября — бонусная выплата рассчитывается пропорционально периоду вашей работы; после 1 октября — вы сможете претендовать на бонусную выплату со следующего календарного года.</p>
+          <p class="bonus-footnote">**Для предоставления корпоративного рабочего автомобиля необходим стаж вождения более 1 года по водительскому удостоверению и действующая медицинская справка форма №003-В/у (срок действия 12 месяцев).</p>
+        </section>
+
+        <div class="dots-vert" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+      </section>
+
+      <!-- Лист 3 -->
+      <section class="page page-3" aria-label="Лист 3">
+        <div class="page-background">
+          <div class="page-gradient"></div>
+          <img class="page-bg-image" src="./Исходники для оффера_проф 3/фон.png" alt="" />
+        </div>
+
+        <img class="page-3 nestle-logo" src="./Исходники для оффера_проф 3/logo.svg" alt="" />
+        <div class="hero">
+          <h2 class="hero-line1">ЗАБОТА О ВАШЕМ</h2>
+          <h1 class="hero-line2">ЗДОРОВЬЕ<br/>И БЛАГОПОЛУЧИИ</h1>
+        </div>
+
+        <section class="benefits-top" aria-label="Программы поддержки">
+          <ul>
+            <li>Доплата в случае временной нетрудоспособности по причине болезни</li>
+            <li>3 дополнительных оплачиваемых выходных дня в год в случае недомогания без оформления больничного</li>
+            <li>Поддержка в трудных жизненных ситуациях</li>
+            <li>Программа корпоративного спорта</li>
+          </ul>
+          <ul>
+            <li>Дополнительные оплачиваемые выходные дни в особых случаях</li>
+            <li>Программы, направленные на поддержку родительства и мероприятия для детей сотрудников</li>
+            <li>Программа психологической поддержки от сервиса "Помогаю"</li>
+          </ul>
+        </section>
+
+        <div class="comfort-title">
+          <h1 class="line1">ГИБКИЕ И КОМФОРТНЫЕ</h1>
+          <h2 class="line2">УСЛОВИЯ ДЛЯ ВАШЕЙ</h2>
+          <h2 class="line3">МАКСИМАЛЬНОЙ ЭФФЕКТИВНОСТИ</h2>
+        </div>
+
+        <section class="benefits-bottom" aria-label="Гибкий формат">
+          <ul>
+            <li>Гибридный формат работы — вы можете работать удаленно до 6 дней в месяц</li>
+          </ul>
+          <ul>
+            <li>Режим гибкого рабочего времени — вы можете регулировать время начала и окончания рабочего дня по согласованию с руководителем</li>
+          </ul>
+        </section>
+
+        <div class="disc-left" aria-hidden="true"></div>
+        <div class="disc-right" aria-hidden="true"></div>
+      </section>
+
+      <!-- Листы 4-13: пустые подложки для наполнения -->
+      <section class="page page-4" aria-label="Лист 4">
+        <div class="page-background">
+          <div class="page-gradient"></div>
+          <img class="page-bg-image" src="./Исходники для оффера_проф 3/фон.png" alt="" />
+        </div>
+        <img class="logo" src="./Исходники для оффера_проф 3/logo.svg" alt="" />
+        <header class="hero">
+          <h2 class="line1">ВАШЕ ПРОФЕССИОНАЛЬНОЕ</h2>
+          <h1 class="line2">РАЗВИТИЕ И РОСТ</h1>
+        </header>
+        <div class="lead">
+          <p>Мы поможем вам быстро адаптироваться к новым задачам и предоставим возможности для дальнейшего развития вашего профессионального потенциала.</p>
+        </div>
+      </section>
+
+      <section class="page page-5" aria-label="Лист 5">
+        <div class="page-background">
+          <div class="page-gradient"></div>
+          <img class="page-bg-image" src="./Исходники для оффера_проф 3/фон.png" alt="" />
+        </div>
+        <img class="logo" src="./Исходники для оффера_проф 3/logo.svg" alt="" />
+        <header class="hero">
+          <h2 class="line1">ВАШЕ РАБОЧЕЕ</h2>
+          <h1 class="line2">ПРОСТРАНСТВО</h1>
+        </header>
+        <div class="lead">
+          <p>Центральный офис Нестле — это сердце нашей компании, где рождаются идеи, меняющие мир.</p>
+        </div>
+        <div class="gallery-band" aria-hidden="true"></div>
+        <div class="gallery">
+          <figure class="card tall"><img src="./Исходники для оффера_проф 3/values1.png" alt="" /></figure>
+          <figure class="card"><img src="./Исходники для оффера_проф 3/values2.png" alt="" /></figure>
+          <figure class="card"><img src="./Исходники для оффера_проф 3/values3.png" alt="" /></figure>
+        </div>
+      </section>
+
+      <section class="page page-6" aria-label="Лист 6">
+        <div class="page-background">
+          <div class="page-gradient"></div>
+          <img class="page-bg-image" src="./Исходники для оффера_проф 3/фон.png" alt="" />
+        </div>
+        <img class="logo" src="./Исходники для оффера_проф 3/logo.svg" alt="" />
+        <header class="hero">
+          <h2 class="line1">ВАШЕ РАБОЧЕЕ</h2>
+          <h1 class="line2">ПРОСТРАНСТВО</h1>
+        </header>
+        <div class="lead">
+          <p>Фабрика по производству кормов для домашних животных Purina — место, где функциональность сочетается с заботой о безопасности.</p>
+        </div>
+        <div class="gallery-band" aria-hidden="true"></div>
+        <div class="gallery">
+          <figure class="card"><img src="./Исходники для оффера_проф 3/values1.png" alt="" /></figure>
+          <figure class="card tall"><img src="./Исходники для оффера_проф 3/values4.png" alt="" /></figure>
+          <figure class="card"><img src="./Исходники для оффера_проф 3/values2.png" alt="" /></figure>
+        </div>
+        <div class="caption">*примеры офисного пространства на фабриках Nestle</div>
+      </section>
+
+      <section class="page page-7" aria-label="Лист 7">
+        <div class="page-background">
+          <div class="page-gradient"></div>
+          <img class="page-bg-image" src="./Исходники для оффера_проф 3/фон.png" alt="" />
+        </div>
+        <img class="logo" src="./Исходники для оффера_проф 3/logo.svg" alt="" />
+        <header class="hero">
+          <h2 class="line1">ВАШЕ РАБОЧЕЕ</h2>
+          <h1 class="line2">ПРОСТРАНСТВО</h1>
+        </header>
+        <div class="lead">
+          <p>Фабрика по производству кондитерских изделий в Самаре — место, где функциональность сочетается с заботой о безопасности.</p>
+        </div>
+        <div class="gallery-band" aria-hidden="true"></div>
+        <div class="gallery">
+          <figure class="card"><img src="./Исходники для оффера_проф 3/values1.png" alt="" /></figure>
+          <figure class="card tall"><img src="./Исходники для оффера_проф 3/values4.png" alt="" /></figure>
+          <figure class="card"><img src="./Исходники для оффера_проф 3/values2.png" alt="" /></figure>
+        </div>
+        <div class="caption">*примеры офисного пространства на фабриках Nestle</div>
+      </section>
+
+      <section class="page page-8" aria-label="Лист 8">
+        <div class="page-background">
+          <div class="page-gradient"></div>
+          <img class="page-bg-image" src="./Исходники для оффера_проф 3/фон.png" alt="" />
+        </div>
+        <img class="logo" src="./Исходники для оффера_проф 3/logo.svg" alt="" />
+        <header class="hero">
+          <h2 class="line1">ВАШЕ РАБОЧЕЕ</h2>
+          <h1 class="line2">ПРОСТРАНСТВО</h1>
+        </header>
+        <div class="lead">
+          <p>Фабрика в Перми — место, где функциональность рабочих мест сочетается с заботой о безопасности каждого сотрудника.</p>
+        </div>
+        <div class="gallery-band" aria-hidden="true"></div>
+        <div class="gallery">
+          <figure class="card"><img src="./Исходники для оффера_проф 3/values1.png" alt="" /></figure>
+          <figure class="card tall"><img src="./Исходники для оффера_проф 3/values4.png" alt="" /></figure>
+          <figure class="card"><img src="./Исходники для оффера_проф 3/values2.png" alt="" /></figure>
+        </div>
+        <div class="caption">*примеры офисного пространства на фабриках Nestle</div>
+      </section>
+
+      <section class="page page-9" aria-label="Лист 9">
+        <div class="page-background">
+          <div class="page-gradient"></div>
+          <img class="page-bg-image" src="./Исходники для оффера_проф 3/фон.png" alt="" />
+        </div>
+        <img class="logo" src="./Исходники для оффера_проф 3/logo.svg" alt="" />
+        <header class="hero">
+          <h2 class="line1">ВАШЕ РАБОЧЕЕ</h2>
+          <h1 class="line2">ПРОСТРАНСТВО</h1>
+        </header>
+        <div class="lead">
+          <p>Фабрика по производству кофе в Тимашевске — место, где функциональность рабочих мест сочетается с заботой о безопасности.</p>
+        </div>
+        <div class="gallery-band" aria-hidden="true"></div>
+        <div class="gallery">
+          <figure class="card"><img src="./Исходники для оффера_проф 3/values1.png" alt="" /></figure>
+          <figure class="card tall"><img src="./Исходники для оффера_проф 3/values4.png" alt="" /></figure>
+          <figure class="card"><img src="./Исходники для оффера_проф 3/values2.png" alt="" /></figure>
+        </div>
+        <div class="caption">*примеры офисного пространства на фабриках Nestle</div>
+      </section>
+
+      <section class="page page-10" aria-label="Лист 10">
+        <div class="page-background">
+          <div class="page-gradient"></div>
+          <img class="page-bg-image" src="./Исходники для оффера_проф 3/фон.png" alt="" />
+        </div>
+        <img class="logo" src="./Исходники для оффера_проф 3/logo.svg" alt="" />
+        <header class="hero">
+          <h2 class="line1">ВАШЕ РАБОЧЕЕ</h2>
+          <h1 class="line2">ПРОСТРАНСТВО</h1>
+        </header>
+        <div class="lead">
+          <p>Наша фабрика — место, где функциональность рабочих мест сочетается с заботой о безопасности каждого сотрудника.</p>
+        </div>
+        <div class="gallery-band" aria-hidden="true"></div>
+        <div class="gallery">
+          <figure class="card"><img src="./Исходники для оффера_проф 3/values1.png" alt="" /></figure>
+          <figure class="card tall"><img src="./Исходники для оффера_проф 3/values4.png" alt="" /></figure>
+          <figure class="card"><img src="./Исходники для оффера_проф 3/values2.png" alt="" /></figure>
+        </div>
+        <div class="caption">*примеры офисного пространства на фабриках Nestle</div>
+      </section>
+
+      <section class="page page-11" aria-label="Лист 11">
+        <div class="page-background">
+          <div class="page-gradient"></div>
+          <img class="page-bg-image" src="./Исходники для оффера_проф 3/фон.png" alt="" />
+        </div>
+        <img class="logo" src="./Исходники для оффера_проф 3/logo.svg" alt="" />
+        <header class="hero">
+          <h2 class="line1">ВАШЕ РАБОЧЕЕ</h2>
+          <h1 class="line2">ПРОСТРАНСТВО</h1>
+        </header>
+        <div class="lead">
+          <p>Наш офис — место, где функциональность рабочих мест сочетается с заботой о безопасности каждого сотрудника.</p>
+        </div>
+        <div class="gallery-band" aria-hidden="true"></div>
+        <div class="gallery">
+          <figure class="card tall"><img src="./Исходники для оффера_проф 3/values1.png" alt="" /></figure>
+          <figure class="card"><img src="./Исходники для оффера_проф 3/values2.png" alt="" /></figure>
+          <figure class="card"><img src="./Исходники для оффера_проф 3/values3.png" alt="" /></figure>
+        </div>
+        <div class="caption">*примеры офисного пространства на фабриках Nestle</div>
+      </section>
+
+      <section class="page page-12" aria-label="Лист 12">
+        <div class="page-background">
+          <div class="page-gradient"></div>
+          <img class="page-bg-image" src="./Исходники для оффера_проф 3/фон.png" alt="" />
+        </div>
+        <img class="logo" src="./Исходники для оффера_проф 3/logo.svg" alt="" />
+        <header class="hero">
+          <h2 class="line1">ВАШЕ РАБОЧЕЕ</h2>
+          <h1 class="line2">ПРОСТРАНСТВО</h1>
+        </header>
+        <div class="lead">
+          <p>Офис Центра Поддержки Бизнеса Нестле — место, где функциональность сочетается с заботой о каждом сотруднике.</p>
+        </div>
+        <div class="gallery-band" aria-hidden="true"></div>
+        <div class="gallery">
+          <figure class="card"><img src="./Исходники для оффера_проф 3/values1.png" alt="" /></figure>
+          <figure class="card"><img src="./Исходники для оффера_проф 3/values2.png" alt="" /></figure>
+        </div>
+        <div class="caption">*примеры офисного пространства на фабриках Nestle</div>
+      </section>
+
+      <section class="page page-13" aria-label="Лист 13">
+        <div class="page-background">
+          <div class="page-gradient"></div>
+          <img class="page-bg-image" src="./Исходники для оффера_проф 3/фон.png" alt="" />
+        </div>
+        <img class="logo" src="./Исходники для оффера_проф 3/logo.svg" alt="" />
+        <div class="hero">
+          <h1 class="line1">НАШИ</h1>
+          <h1 class="line2">ЦЕННОСТИ</h1>
+        </div>
+        <div class="intro">
+          <p>Наши сотрудники – главный источник нашего успеха. Именно они стоят за силой наших брендов, высоким качеством продукции и развитием компании.</p>
+        </div>
+        <div class="subtitle">В своей ежедневной работе мы руководствуемся <b>ценностями Нестле:</b></div>
+        <div class="values">
+          <div class="value-item">
+            <div class="tile" data-label="Уважение к себе"></div>
+            <div class="value-text">Уважение к себе, потому что уважение начинается с каждого из нас</div>
+          </div>
+          <div class="value-item">
+            <div class="tile" data-label="Уважение к другим"></div>
+            <div class="value-text">Уважение к тем, с кем мы работаем, чтобы создавать атмосферу доверия, вдохновлять людей и позволять им работать с полной отдачей</div>
+          </div>
+          <div class="value-item">
+            <div class="tile" data-label="К различиям"></div>
+            <div class="value-text">Уважение к другим культурам и образам мышления, что требует открытости во всех наших взаимодействиях</div>
+          </div>
+          <div class="value-item">
+            <div class="tile" data-label="К будущему"></div>
+            <div class="value-text">Уважение к будущему и следующим поколениям, что заставляет нас действовать ответственно и смело</div>
+          </div>
+        </div>
+        <div class="intro" style="top: 760px; right: 120px;">
+          <p>Присоединившись к Нестле, вы становитесь частью динамичной и открытой команды, которая ценит сотрудничество, гибкость мышления и стремление к инновациям.</p>
+        </div>
+        <div class="disc-br" aria-hidden="true"></div>
+      </section>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Оффер Проф — Точная копия page1</title>
+    <style>
+      :root {
+        --color-bg-grad-start: #1E6EAF;
+        --color-bg-grad-end: #76C6FE;
+        --color-graphic-primary: #885CA0;
+        --color-purple-aux: #A887B9;
+        --color-blue-aux: #8F9AC9;
+        --color-bullets: #CDA7E0;
+        --text-color: #ffffff;
+        /* Точные поля контентной колонки на основе анализа page1.png */
+        --page1-content-left: 390px;
+        --page1-content-right: 270px;
+      }
+
+      @font-face { font-family: 'Nestle Text'; src: local('Arial'); font-weight: 300; font-style: normal; }
+      @font-face { font-family: 'Nestle Text'; src: local('Arial'); font-weight: 400; font-style: normal; }
+      @font-face { font-family: 'Nestle Text'; src: local('Arial Bold'); font-weight: 700; font-style: normal; }
+      @font-face { font-family: 'Nestle Brush'; src: local('Brush Script MT'); font-weight: 400; font-style: normal; }
+
+      html, body { margin: 0; padding: 0; background: #2a2a2a; color: var(--text-color); font-family: 'Nestle Text', -apple-system, Segoe UI, Roboto, Arial, sans-serif; line-height: 1.35; }
+      @page { size: 794px 1123px; margin: 0; }
+      .document { display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 24px 0; }
+      .page { position: relative; width: 794px; height: 1123px; overflow: hidden; background: #3a3a3a; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+
+      .page-background { position: absolute; inset: 0; z-index: 0; }
+      .page-gradient { position: absolute; inset: 0; background: linear-gradient(180deg, var(--color-bg-grad-start) 0%, var(--color-bg-grad-end) 100%); }
+      .page-bg-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; }
+      /* Полупрозрачные горизонтальные полосы */
+      .band { position: absolute; left: 0; right: 0; height: 120px; background: rgba(255,255,255,0.12); }
+      .band.band-top { top: 510px; }
+      .band.band-bottom { top: 650px; }
+
+      .decor { position: absolute; user-select: none; pointer-events: none; }
+      .decor-logo { top: 90px; left: 153px; width: 120px; }
+      .decor-dots { top: 70px; right: 90px; width: 98px; opacity: 0.95; }
+
+      /* Кольцо - скорректированные размеры и позиция */
+      .decor-ring { right: 130px; top: 480px; width: 240px; height: 240px; border-radius: 50%; box-sizing: border-box; border: 18px solid var(--color-purple-aux); opacity: 0.55; }
+
+      /* Малый диск - скорректированная позиция */
+      .decor-disc-small { right: 150px; top: 640px; width: 190px; height: 190px; background: var(--color-graphic-primary); opacity: 0.8; border-radius: 50%; }
+
+      /* Большой диск - скорректированная позиция */
+      .decor-disc-big { right: 110px; bottom: 110px; width: 250px; height: 250px; background: var(--color-graphic-primary); opacity: 0.92; border-radius: 50%; }
+
+      /* Дополнительные декоративные элементы для точности */
+      .decor-top-elements { position: absolute; top: 86px; left: 146px; right: 1488px; height: 108px; pointer-events: none; }
+      .decor-corner-br { position: absolute; right: 30px; bottom: 60px; width: 260px; height: 260px; background: rgba(136,92,160,0.55); border-radius: 50%; }
+
+      /* Дополнительные декоративные круги для точности */
+      .decor-circle-top { position: absolute; top: 480px; left: 130px; width: 190px; height: 190px; background: rgba(136,92,160,0.25); border-radius: 50%; }
+      .decor-circle-middle { position: absolute; top: 640px; left: 150px; width: 240px; height: 240px; background: rgba(136,92,160,0.35); border-radius: 50%; }
+
+      /* Точные стили для заголовка на основе OCR анализа (bbox 151 512 1386 599) */
+      .headline { position: absolute; left: 151px; top: 512px; width: 1235px; }
+      .headline h1 { margin: 0 0 14px 0; font-weight: 300; font-size: 87pt; line-height: 1; color: #ffffff; letter-spacing: 2px; white-space: nowrap; }
+      .headline h1 .brush { font-family: 'Nestle Brush', cursive; font-weight: 400; display: inline-block; font-size: 83pt; transform: translateY(-10px); margin-left: 15px; letter-spacing: 0; }
+
+      /* Точные стили для текста приветствия (bbox 153 726 1219 762) */
+      .lead { position: absolute; left: 153px; top: 726px; width: 1066px; color: #ffffff; font-size: 18pt; line-height: 1.4; }
+      .lead p { margin: 8px 0; position: relative; }
+      .lead strong { font-weight: 700; }
+
+      /* Стили для первого абзаца (bbox 153 726 1219 762) */
+      .lead .first-line { position: absolute; left: 0; top: 0; width: 1066px; }
+
+      /* Стили для второго абзаца (bbox 153 778 939 812) */
+      .lead .second-line { position: absolute; left: 0; top: 52px; width: 786px; }
+
+      /* Стили для третьего абзаца (bbox 153 827 636 858) */
+      .lead .third-line { position: absolute; left: 0; top: 101px; width: 483px; }
+
+      /* Стили для четвертого абзаца (bbox 153 876 1070 911) */
+      .lead .fourth-line { position: absolute; left: 0; top: 150px; width: 917px; }
+
+      /* Стили для пятого абзаца (bbox 150 928 551 961) */
+      .lead .fifth-line { position: absolute; left: -3px; top: 202px; width: 401px; }
+
+      /* Стили для шестого абзаца (bbox 153 978 878 1012) */
+      .lead .sixth-line { position: absolute; left: 0; top: 252px; width: 725px; }
+
+      /* Стили для седьмого абзаца (bbox 153 1026 978 1061) */
+      .lead .seventh-line { position: absolute; left: 0; top: 300px; width: 825px; }
+
+      /* Плашка с деталями - скорректированные позиции на основе анализа */
+      .plate { position: absolute; left: 153px; right: 260px; top: 1100px; color: #ffffff; background: var(--color-purple-aux); border-radius: 14px 14px 24px 14px; padding: 18px 22px; }
+      .plate p { margin: 8px 0; font-size: 16pt; }
+      .plate strong { font-weight: 700; }
+      .plate .address { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+      .pin { position: relative; width: 14px; height: 14px; }
+      .pin::before { content: ""; position: absolute; inset: 0; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: #ffffff; }
+      .pin::after { content: ""; position: absolute; left: 3px; top: 3px; width: 8px; height: 8px; background: var(--color-purple-aux); border-radius: 50%; }
+
+      /* CTA кнопка - скорректированная позиция */
+      .cta { position: absolute; left: 153px; bottom: 95px; width: 300px; height: 56px; border-radius: 28px; border: 2px solid #ffffff; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 16px; gap: 10px; }
+      .cta img { width: 36px; height: auto; filter: invert(1) brightness(100); }
+
+      /* Испытательный срок - отдельный блок на основе OCR */
+      .probation { position: absolute; left: 153px; top: 1078px; width: 825px; color: #ffffff; font-size: 18pt; }
+
+      @media print { body { background: none; } .document { gap: 0; padding: 0; } .page { break-after: page; } }
+
+      /* Вспомогательные классы */
+      .is-hidden { display: none !important; }
+      .footnote { font-size: 13pt; }
+      .text-body { font-size: 18pt; }
+    </style>
+  </head>
+  <body>
+    <div class="document">
+      <!-- Первая страница - точная копия page1.png -->
+      <section class="page page-1" aria-label="Лист 1">
+        <div class="page-background">
+          <div class="page-gradient"></div>
+          <img class="page-bg-image" src="./Исходники для оффера_проф 3/фон.png" alt="" />
+          <div class="band band-top"></div>
+          <div class="band band-bottom"></div>
+
+          <!-- Декоративные элементы -->
+          <div class="decor decor-top-elements"></div>
+          <img class="decor decor-logo" src="./Исходники для оффера_проф 3/logo.svg" alt="" />
+          <img class="decor decor-dots" src="./Исходники для оффера_проф 3/dots.svg" alt="" />
+          <div class="decor decor-ring"></div>
+          <div class="decor decor-disc-small"></div>
+          <div class="decor decor-disc-big"></div>
+          <div class="decor decor-corner-br"></div>
+          <div class="decor decor-circle-top"></div>
+          <div class="decor decor-circle-middle"></div>
+        </div>
+
+        <!-- Заголовок с именем -->
+        <div class="headline">
+          <h1>
+            УВАЖАЕМЫЙ<span class="brush">ИВАН</span>!
+          </h1>
+        </div>
+
+        <!-- Текст приветствия -->
+        <div class="lead">
+          <p class="first-line">Мы будем рады вас видеть в команде <strong>ООО «Нестле Россия»</strong>,</p>
+          <p class="second-line">Группа компаний <strong>Нестле в России и Евразии</strong>.</p>
+          <p class="third-line">Ваша позиция: <strong>Специалист</strong>.</p>
+          <p class="fourth-line">Ваше подразделение: <strong>Отдел по работе с клиентами, Департамент Продаж</strong>.</p>
+          <p class="fifth-line">Ваш руководитель: <strong>Руководитель отдела</strong>.</p>
+          <p class="sixth-line">Предлагаемая дата начала работы: <strong>01.01.2026</strong> г.</p>
+        </div>
+
+        <!-- Испытательный срок -->
+        <div class="probation">
+          <p>Испытательный срок: <strong>3 месяца</strong>.</p>
+        </div>
+
+        <!-- Плашка с деталями договора -->
+        <section class="plate" aria-label="Детали договора">
+          <p>Тип трудового договора: <strong>Постоянный трудовой договор</strong>.</p>
+          <p>График работы: <strong>40 часов в неделю</strong>.</p>
+          <div class="address">
+            <span class="pin"></span>
+            <span>Ждем вас по адресу: <strong>Москва, ул. Примерная, д. 1</strong></span>
+          </div>
+        </section>
+
+        <!-- CTA кнопка -->
+        <div class="cta" aria-hidden="true">
+          <img src="./Исходники для оффера_проф 3/arrow.svg" alt="" />
+          <span>Присоединиться</span>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

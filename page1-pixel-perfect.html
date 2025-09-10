@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Оффер Проф — Pixel Perfect копия page1</title>
+    <style>
+      :root {
+        --color-bg-grad-start: #1E6EAF;
+        --color-bg-grad-end: #76C6FE;
+        --color-graphic-primary: #885CA0;
+        --color-purple-aux: #A887B9;
+        --color-blue-aux: #8F9AC9;
+        --color-bullets: #CDA7E0;
+        --text-color: #ffffff;
+      }
+
+      @font-face { font-family: 'Nestle Text'; src: local('Arial'); font-weight: 300; font-style: normal; }
+      @font-face { font-family: 'Nestle Text'; src: local('Arial'); font-weight: 400; font-style: normal; }
+      @font-face { font-family: 'Nestle Text'; src: local('Arial Bold'); font-weight: 700; font-style: normal; }
+      @font-face { font-family: 'Nestle Brush'; src: local('Brush Script MT'); font-weight: 400; font-style: normal; }
+
+      html, body { margin: 0; padding: 0; background: #2a2a2a; color: var(--text-color); font-family: 'Nestle Text', -apple-system, Segoe UI, Roboto, Arial, sans-serif; line-height: 1.35; }
+      @page { size: 794px 1123px; margin: 0; }
+      .document { display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 24px 0; }
+      .page { position: relative; width: 794px; height: 1123px; overflow: hidden; background: #3a3a3a; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+
+      .page-background { position: absolute; inset: 0; z-index: 0; }
+      .page-gradient { position: absolute; inset: 0; background: linear-gradient(180deg, var(--color-bg-grad-start) 0%, var(--color-bg-grad-end) 100%); }
+      .page-bg-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; }
+
+      /* Полупрозрачные полосы */
+      .band { position: absolute; left: 0; right: 0; height: 120px; background: rgba(255,255,255,0.12); }
+      .band.band-top { top: 510px; }
+      .band.band-bottom { top: 650px; }
+
+      /* Декоративные элементы с точными размерами */
+      .decor { position: absolute; user-select: none; pointer-events: none; }
+
+      /* Логотип Nestle */
+      .decor-logo {
+        top: 90px;
+        left: 153px;
+        width: 120px;
+        z-index: 10;
+      }
+
+      /* Декоративные точки */
+      .decor-dots {
+        top: 70px;
+        right: 90px;
+        width: 98px;
+        opacity: 0.95;
+        z-index: 10;
+      }
+
+      /* Кольцо */
+      .decor-ring {
+        right: 130px;
+        top: 480px;
+        width: 240px;
+        height: 240px;
+        border-radius: 50%;
+        box-sizing: border-box;
+        border: 18px solid var(--color-purple-aux);
+        opacity: 0.55;
+        z-index: 5;
+      }
+
+      /* Малый диск */
+      .decor-disc-small {
+        right: 150px;
+        top: 640px;
+        width: 190px;
+        height: 190px;
+        background: var(--color-graphic-primary);
+        opacity: 0.8;
+        border-radius: 50%;
+        z-index: 5;
+      }
+
+      /* Большой диск */
+      .decor-disc-big {
+        right: 110px;
+        bottom: 110px;
+        width: 250px;
+        height: 250px;
+        background: var(--color-graphic-primary);
+        opacity: 0.92;
+        border-radius: 50%;
+        z-index: 5;
+      }
+
+      /* Дополнительные декоративные круги */
+      .decor-circle-left {
+        left: 130px;
+        top: 480px;
+        width: 190px;
+        height: 190px;
+        background: rgba(136,92,160,0.25);
+        border-radius: 50%;
+        z-index: 4;
+      }
+
+      .decor-circle-middle {
+        left: 150px;
+        top: 640px;
+        width: 240px;
+        height: 240px;
+        background: rgba(136,92,160,0.35);
+        border-radius: 50%;
+        z-index: 4;
+      }
+
+      .decor-circle-bottom {
+        right: 30px;
+        bottom: 60px;
+        width: 260px;
+        height: 260px;
+        background: rgba(136,92,160,0.55);
+        border-radius: 50%;
+        z-index: 4;
+      }
+
+      /* Текстовые элементы с PIXEL-PERFECT позиционированием */
+
+      /* УВАЖАЕМЫЙ - bbox 151 512 870 598 */
+      .text-respect {
+        position: absolute;
+        left: 151px;
+        top: 512px;
+        width: 719px;
+        height: 86px;
+        font-size: 87pt;
+        font-weight: 300;
+        line-height: 1;
+        color: #ffffff;
+        letter-spacing: 2px;
+        white-space: nowrap;
+        z-index: 20;
+      }
+
+      /* ИВАН! - bbox 1019 505 1386 599 */
+      .text-name {
+        position: absolute;
+        left: 1019px;
+        top: 505px;
+        width: 367px;
+        height: 94px;
+        font-family: 'Nestle Brush', cursive;
+        font-size: 83pt;
+        font-weight: 400;
+        line-height: 1;
+        color: #ffffff;
+        letter-spacing: 0;
+        white-space: nowrap;
+        z-index: 20;
+      }
+
+      /* Первый абзац приветствия - bbox 153 726 1219 762 */
+      .text-welcome-1 {
+        position: absolute;
+        left: 153px;
+        top: 726px;
+        width: 1066px;
+        height: 36px;
+        font-size: 18pt;
+        font-weight: 400;
+        line-height: 1.4;
+        color: #ffffff;
+        z-index: 20;
+      }
+
+      /* Второй абзац - bbox 153 778 939 812 */
+      .text-welcome-2 {
+        position: absolute;
+        left: 153px;
+        top: 778px;
+        width: 786px;
+        height: 34px;
+        font-size: 18pt;
+        font-weight: 400;
+        line-height: 1.4;
+        color: #ffffff;
+        z-index: 20;
+      }
+
+      /* Третий абзац - bbox 153 827 636 858 */
+      .text-position {
+        position: absolute;
+        left: 153px;
+        top: 827px;
+        width: 483px;
+        height: 31px;
+        font-size: 18pt;
+        font-weight: 400;
+        line-height: 1.4;
+        color: #ffffff;
+        z-index: 20;
+      }
+
+      /* Четвертый абзац - bbox 153 876 1070 911 */
+      .text-department {
+        position: absolute;
+        left: 153px;
+        top: 876px;
+        width: 917px;
+        height: 35px;
+        font-size: 18pt;
+        font-weight: 400;
+        line-height: 1.4;
+        color: #ffffff;
+        z-index: 20;
+      }
+
+      /* Пятый абзац - bbox 153 978 878 1012 */
+      .text-manager {
+        position: absolute;
+        left: 153px;
+        top: 978px;
+        width: 725px;
+        height: 34px;
+        font-size: 18pt;
+        font-weight: 400;
+        line-height: 1.4;
+        color: #ffffff;
+        z-index: 20;
+      }
+
+      /* Шестой абзац - bbox 153 1026 978 1061 */
+      .text-start-date {
+        position: absolute;
+        left: 153px;
+        top: 1026px;
+        width: 825px;
+        height: 35px;
+        font-size: 18pt;
+        font-weight: 400;
+        line-height: 1.4;
+        color: #ffffff;
+        z-index: 20;
+      }
+
+      /* Испытательный срок - bbox 153 1078 723 1105 */
+      .text-probation {
+        position: absolute;
+        left: 153px;
+        top: 1078px;
+        width: 570px;
+        height: 27px;
+        font-size: 18pt;
+        font-weight: 400;
+        line-height: 1.4;
+        color: #ffffff;
+        z-index: 20;
+      }
+
+      /* Плашка с деталями договора */
+      .contract-plate {
+        position: absolute;
+        left: 153px;
+        right: 260px;
+        top: 1150px;
+        background: var(--color-purple-aux);
+        border-radius: 14px 14px 24px 14px;
+        padding: 18px 22px;
+        color: #ffffff;
+        z-index: 15;
+      }
+
+      .contract-plate p {
+        margin: 8px 0;
+        font-size: 16pt;
+        font-weight: 400;
+        line-height: 1.4;
+      }
+
+      .contract-plate strong {
+        font-weight: 700;
+      }
+
+      .contract-plate .address {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .pin {
+        position: relative;
+        width: 14px;
+        height: 14px;
+      }
+
+      .pin::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50% 50% 50% 0;
+        transform: rotate(-45deg);
+        background: #ffffff;
+      }
+
+      .pin::after {
+        content: "";
+        position: absolute;
+        left: 3px;
+        top: 3px;
+        width: 8px;
+        height: 8px;
+        background: var(--color-purple-aux);
+        border-radius: 50%;
+      }
+
+      /* CTA кнопка */
+      .cta-button {
+        position: absolute;
+        left: 153px;
+        bottom: 95px;
+        width: 300px;
+        height: 56px;
+        border-radius: 28px;
+        border: 2px solid #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        font-size: 16px;
+        gap: 10px;
+        z-index: 25;
+      }
+
+      .cta-button img {
+        width: 36px;
+        height: auto;
+        filter: invert(1) brightness(100);
+      }
+
+      @media print {
+        body { background: none; }
+        .document { gap: 0; padding: 0; }
+        .page { break-after: page; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="document">
+      <!-- Первая страница - PIXEL-PERFECT копия page1.png -->
+      <section class="page page-1" aria-label="Лист 1">
+        <div class="page-background">
+          <div class="page-gradient"></div>
+          <img class="page-bg-image" src="./Исходники для оффера_проф 3/фон.png" alt="" />
+          <div class="band band-top"></div>
+          <div class="band band-bottom"></div>
+        </div>
+
+        <!-- Декоративные элементы -->
+        <img class="decor decor-logo" src="./Исходники для оффера_проф 3/logo.svg" alt="" />
+        <img class="decor decor-dots" src="./Исходники для оффера_проф 3/dots.svg" alt="" />
+        <div class="decor decor-ring"></div>
+        <div class="decor decor-disc-small"></div>
+        <div class="decor decor-disc-big"></div>
+        <div class="decor decor-circle-left"></div>
+        <div class="decor decor-circle-middle"></div>
+        <div class="decor decor-circle-bottom"></div>
+
+        <!-- Текстовые элементы с точными позициями -->
+
+        <!-- УВАЖАЕМЫЙ -->
+        <div class="text-respect">УВАЖАЕМЫЙ</div>
+
+        <!-- ИВАН! -->
+        <div class="text-name">ИВАН!</div>
+
+        <!-- Первый абзац приветствия -->
+        <div class="text-welcome-1">Мы будем рады вас видеть в команде <strong>ООО «Нестле Россия»,</strong></div>
+
+        <!-- Второй абзац -->
+        <div class="text-welcome-2">Группа компаний <strong>Нестле в России и Евразии.</strong></div>
+
+        <!-- Позиция -->
+        <div class="text-position">Ваша позиция: <strong>Специалист.</strong></div>
+
+        <!-- Подразделение -->
+        <div class="text-department">Ваше подразделение: <strong>Отдел по работе с клиентами, Департамент Продаж.</strong></div>
+
+        <!-- Руководитель -->
+        <div class="text-manager">Ваш руководитель: <strong>Руководитель отдела.</strong></div>
+
+        <!-- Дата начала работы -->
+        <div class="text-start-date">Предлагаемая дата начала работы: <strong>01.01.2026</strong> г.</div>
+
+        <!-- Испытательный срок -->
+        <div class="text-probation">Испытательный срок: <strong>3 месяца.</strong></div>
+
+        <!-- Плашка с деталями договора -->
+        <section class="contract-plate" aria-label="Детали договора">
+          <p>Тип трудового договора: <strong>Постоянный трудовой договор.</strong></p>
+          <p>График работы: <strong>40 часов в неделю.</strong></p>
+          <div class="address">
+            <span class="pin"></span>
+            <span>Ждем вас по адресу: <strong>Москва, ул. Примерная, д. 1.</strong></span>
+          </div>
+        </section>
+
+        <!-- CTA кнопка -->
+        <div class="cta-button" aria-hidden="true">
+          <img src="./Исходники для оффера_проф 3/arrow.svg" alt="" />
+          <span>Присоединиться</span>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
